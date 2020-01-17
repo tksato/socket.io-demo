@@ -24,7 +24,7 @@ socket.on('connect_timeout', () => {
 });
 
 socket.on('reconnect', () => {
-    console.log('reconnect');
+    console.log('reconnect.');
 });
 
 socket.on('reconnect_attempt', () => {
