@@ -2,9 +2,16 @@
  * socket.io client
  */
 
+const options = {
+    'reconnectionAttempts':10,
+    'reconnectionDelay': 100,
+    'reconnectionDelayMax': 300,
+    'timeout': 5000,
+};
+
 const config = require('./config.json');
 const client = require('socket.io-client');
-const socket = client.connect(config.host);
+const socket = client.connect(config.host, options);
 let reconnectCount = 0;
 
 socket.on('connect', () => {
