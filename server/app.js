@@ -8,13 +8,16 @@ console.log(`listened port:${config.port}`);
 
 // connect
 io.sockets.on('connect', (socket) => {
-    console.log('connected.');
+    console.log(`connected headers:${JSON.stringify(socket.handshake.headers)}`);
 
-    socket.emit('message', 'connect success。');
+    socket.emit('message', 'connect success.');
 
     // disconnect
     socket.on('disconnect', (data) => {
-        console.log(data);
-        console.log('disconnected');
+        console.log(`disconnected data:${data}`);
     });
+});
+
+io.sockets.on('connection', (socket) => {
+    console.log(`server connection id:${socket.id}`);
 });
