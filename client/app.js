@@ -9,16 +9,33 @@ const options = {
     'timeout': 5000,
 };
 
-const config = require('./config.json');
-const client = require('socket.io-client');
-const socket = client.connect(config.host, options);
+
+import { io } from 'socket.io-client';
+import * as dotenv from 'dotenv'; 
+import path from 'path';
+import {fileURLToPath} from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+// dotenv
+dotenv.config({
+  path: path.join(__dirname, '/.env'),
+});
+
+const host = process.env.HOST;
+const socket = io(host);
 
 socket.on('connect', () => {
-    console.log(`client connected host:${config.host}`);
+    console.log(`client connected host:${host}`);
+});
+
+// test
+socket.on('test', (data) => {
+    console.log(`test:${data}`);
 });
 
 socket.on('message', (data) => {
-    console.log(`message：${data}`);
+    console.log(`message:${data}`);
 });
 
 socket.on('connect_error', (error) => {

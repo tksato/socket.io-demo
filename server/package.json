@@ -2,6 +2,7 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -17,6 +18,8 @@
   },
   "homepage": "https://github.com/tksato/socket.io-demo#readme",
   "dependencies": {
-    "socket.io": "^2.3.0"
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "socket.io": "^4.4.1"
   }
 }
