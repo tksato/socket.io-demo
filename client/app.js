@@ -15,12 +15,8 @@ import * as dotenv from 'dotenv';
 import path from 'path';
 import {fileURLToPath} from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 // dotenv
-dotenv.config({
-  path: path.join(__dirname, '/.env'),
-});
+configDotEnv();
 
 const host = process.env.HOST;
 const socket = io(host);
@@ -31,7 +27,7 @@ socket.on('connect', () => {
 
 // test
 socket.on('test', (data) => {
-    console.log(`test:${data}`);
+    console.log(`test ${data}`);
 });
 
 socket.on('message', (data) => {
@@ -65,3 +61,14 @@ socket.on('reconnect_error', (error) => {
 socket.on('reconnect_failed', () => {
     console.log('reconnect_failed.');
 });
+
+/**
+ * dotenvの設定
+ */
+function configDotEnv() {
+    const __filename = fileURLToPath(import.meta.url);
+    const __dirname = path.dirname(__filename);
+    dotenv.config({
+        path: path.join(__dirname, '/.env'),
+    });
+}
