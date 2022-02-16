@@ -6,6 +6,7 @@ import express from 'express';
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import * as dotenv from 'dotenv'; 
+import fs from 'fs';
 import path from 'path';
 import {fileURLToPath} from 'url';
 import { createClient } from 'redis';
@@ -58,10 +59,14 @@ io.sockets.on('connection', (socket) => {
  * dotenvの設定
  */
 function configDotEnv() {
-    const __filename = fileURLToPath(import.meta.url);
-    const __dirname = path.dirname(__filename);
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = path.dirname(__filename);
+  const envPath = path.join(__dirname, '/.env');
+    if (!fs.existsSync(envPath)) {
+        return;
+    }
     dotenv.config({
-        path: path.join(__dirname, '/.env'),
+        path: envPath,
     });
 }
 
@@ -70,8 +75,12 @@ function configDotEnv() {
  */
 function listenServer(server, io) {
     // redis
-    const redisUrl = `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`;
-    const pubClient = createClient({ url: redisUrl });
+    const url = `redis://${process.env.REDIS_HOST}:${process.env.REDIS_PORT}`;
+    console.log(`redis url:${url}`);
+
+    const pubClient = createClient({
+        url: url,
+    });
     const subClient = pubClient.duplicate();
 
     Promise.all([
