@@ -1,12 +1,26 @@
 up-server: ## up server
-	docker-compose up -d server-a server-b --build
+# docker compose up --scale server=2 server --build
+	docker compose up -d server --build
 
 up-redis: ## up redis
-	docker-compose up -d redis
+	docker compose up -d redis
 
-down-all:
-	docker-compose down
+down-all: ## down all
+	docker compose down
+
+stop-server: ## down server
+	docker compose stop server
 
 down-server: ## down server
-	docker-compose stop server-a server-b
-	docker-compose rm -f server-a server-b
+	make stop-server
+	docker compose rm -f server
+
+ps: ## docker compose ps
+	docker compose ps
+
+logs: ## docker compose logs
+	docker compose logs
+
+# port: ## docker compose ps
+# 	docker compose port server --index=1 5000
+# 	docker compose port server --index=2 5000
